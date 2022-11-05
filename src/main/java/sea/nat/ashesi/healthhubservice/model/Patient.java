@@ -1,12 +1,14 @@
 package sea.nat.ashesi.healthhubservice.model;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @Table(name = "patients")
+@Accessors(chain = true)
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
