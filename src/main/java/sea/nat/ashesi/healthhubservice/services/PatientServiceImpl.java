@@ -16,7 +16,7 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public boolean signUpPatient(Patient patient) {
-        Optional<Patient> foundPatient = patientRepository.findByEmail(patient.getPatient_email());
+        Optional<Patient> foundPatient = patientRepository.findByEmail(patient.getEmail());
         if(foundPatient.isPresent()) {
             throw new PatientExistsException("A patient with this email already exists");
         }

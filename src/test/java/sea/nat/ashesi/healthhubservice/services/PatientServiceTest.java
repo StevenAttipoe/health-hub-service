@@ -14,9 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import sea.nat.ashesi.healthhubservice.exception.PatientExistsException;
 import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
-
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.lenient;
@@ -41,12 +39,12 @@ class PatientServiceTest {
         //GIVEN
         Patient patient = new Patient()
                 .setPatient_id(67082023)
-                .setPatient_name("Steven")
-                .setPatient_email("steven@gmail.com")
-                .setPatient_password("abc");
+                .setName("Steven")
+                .setEmail("steven@gmail.com")
+                .setPassword("abc");
 
         //WHEN
-        lenient().when(patientRepository.findByEmail(patient.getPatient_email())).thenReturn(Optional.empty());
+        lenient().when(patientRepository.findByEmail(patient.getEmail())).thenReturn(Optional.empty());
         lenient().when(patientRepository.save(patient)).thenReturn(new Patient());
         boolean result = underTest.signUpPatient(patient);
 
@@ -59,12 +57,12 @@ class PatientServiceTest {
         //GIVEN
         Patient patient = new Patient()
                 .setPatient_id(67082023)
-                .setPatient_name("steven")
-                .setPatient_email("steven@gmail.com")
-                .setPatient_password("abc");
+                .setName("steven")
+                .setEmail("steven@gmail.com")
+                .setPassword("abc");
 
         //WHEN
-        lenient().when(patientRepository.findByEmail(patient.getPatient_email())).thenReturn(Optional.of(new Patient()));
+        lenient().when(patientRepository.findByEmail(patient.getEmail())).thenReturn(Optional.of(new Patient()));
         lenient().when(patientRepository.save(patient)).thenReturn(new Patient());
 
         //THEN

@@ -13,8 +13,8 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long patient_id;
-    private String patient_name;
+    private String name;
     @Column(length = 100)
-    private String patient_email;
-    private String patient_password;
+    private String email;
+    private String password;
 }
