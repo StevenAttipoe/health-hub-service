@@ -2,11 +2,11 @@ package sea.nat.ashesi.healthhubservice.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sea.nat.ashesi.healthhubservice.model.Patient;
+import sea.nat.ashesi.healthhubservice.model.User;
 
 import java.util.Optional;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, Long> {
-    Optional<Patient> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 }
