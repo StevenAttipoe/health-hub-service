@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "doctor")
 @Accessors(chain = true)
-public class User {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long patient_id;
-    private String name;
-    @Column(length = 100)
+    private long doctor_id;
+//    private String name;
+//    @Column(length = 100)
     private String email ;
     private String password;
 }
