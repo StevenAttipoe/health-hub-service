@@ -3,9 +3,8 @@ package sea.nat.ashesi.healthhubservice.services;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sea.nat.ashesi.healthhubservice.config.JwtService;
 import sea.nat.ashesi.healthhubservice.exception.UserException;
 import sea.nat.ashesi.healthhubservice.model.Doctor;
 import sea.nat.ashesi.healthhubservice.repositories.DoctorRepository;
@@ -17,9 +16,7 @@ import java.util.Optional;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
-
-//    @Autowired
-//    private final PasswordEncoder bCryptPasswordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public boolean signUpDoctor(Doctor doctor) {
@@ -27,7 +24,6 @@ public class DoctorServiceImpl implements DoctorService {
         if(foundUser.isPresent()) {
             throw new UserException("A user with this email already exists");
         }
-//        doctor.setPassword(bCryptPasswordEncoder.encode(doctor.getPassword()));
         doctorRepository.save(doctor);
         return true;
     }
@@ -45,6 +41,16 @@ public class DoctorServiceImpl implements DoctorService {
 //                response.addHeader("Authorization", "Bearer " + token);
                 return token;
 //            }
+        }
+        throw new UserException("User does not exist");
+    }
+
+    @Override
+    public Doctor getDoctor(String jwt) {
+        String doctorEmail = jwtService.extractUsername(jwt);
+        Optional<Doctor> doctorOptional = doctorRepository.findByEmail(doctorEmail);
+        if(doctorOptional.isPresent()) {
+            return doctorOptional.get();
         }
         throw new UserException("User does not exist");
     }

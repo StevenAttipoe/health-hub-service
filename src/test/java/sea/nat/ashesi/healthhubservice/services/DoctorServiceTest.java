@@ -9,8 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import sea.nat.ashesi.healthhubservice.exception.UserException;
 import sea.nat.ashesi.healthhubservice.model.Doctor;
@@ -27,22 +25,22 @@ class DoctorServiceTest {
     @Mock
     DoctorRepository doctorRepository;
 
-//    @Mock
-//    PasswordEncoder bCryptPasswordEncoder;
+    @Mock
+    JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     DoctorService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new DoctorServiceImpl(doctorRepository);
+        underTest = new DoctorServiceImpl(doctorRepository, jwtTokenProvider);
     }
 
     @Test
     void shouldSignUpUser(){
         //GIVEN
         Doctor doctor = new Doctor()
-                .setPatient_id(67082023)
+                .setDoctor_id(67082023)
 //                .setName("Steven")
                 .setEmail("steven@gmail.com")
                 .setPassword("abc");
@@ -60,7 +58,7 @@ class DoctorServiceTest {
     void shouldNotSignUpUserIfUserExists(){
         //GIVEN
         Doctor doctor = new Doctor()
-                .setPatient_id(67082023)
+                .setDoctor_id(67082023)
 //                .setName("steven")
                 .setEmail("steven@gmail.com")
                 .setPassword("abc");
@@ -94,7 +92,7 @@ class DoctorServiceTest {
     void shouldNotLogInUser(){
         //GIVEN
         Doctor doctor = new Doctor()
-                .setPatient_id(67082023)
+                .setDoctor_id(67082023)
 //                .setName("Steven")
                 .setEmail("steven@gmail.com")
                 .setPassword("abc");

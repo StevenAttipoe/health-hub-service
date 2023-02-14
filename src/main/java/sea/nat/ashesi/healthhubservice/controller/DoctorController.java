@@ -1,10 +1,9 @@
 package sea.nat.ashesi.healthhubservice.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sea.nat.ashesi.healthhubservice.model.Doctor;
+import sea.nat.ashesi.healthhubservice.config.JwtService;
 import sea.nat.ashesi.healthhubservice.services.DoctorService;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -14,14 +13,13 @@ import sea.nat.ashesi.healthhubservice.services.DoctorService;
 public class DoctorController {
 
     private final DoctorService doctorService;
+    private final JwtService jwtService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<Boolean> signUpDoctor(@RequestBody Doctor doctor) {
-        return new ResponseEntity<>(doctorService.signUpDoctor(doctor), HttpStatus.CREATED);
+    @GetMapping("/getMail")
+    public ResponseEntity<String> getDoctorName(@RequestHeader("Authorization") String authorizationHeader ) {
+        String token = authorizationHeader.substring(7); // assuming the token is in the "Authorization" header preceded by "Bearer "
+        String email = jwtService.extractUsername(token);
+        return ResponseEntity.ok(email);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> logInDoctor(@RequestBody Doctor doctor) {
-        return new ResponseEntity<>(doctorService.signInDoctor(doctor), HttpStatus.OK);
-    }
 }

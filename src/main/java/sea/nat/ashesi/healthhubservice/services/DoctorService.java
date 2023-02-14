@@ -7,4 +7,6 @@ public interface DoctorService {
 
     String signInDoctor(Doctor doctor);
 
+    Doctor getDoctor(String jwt);
+
 }
