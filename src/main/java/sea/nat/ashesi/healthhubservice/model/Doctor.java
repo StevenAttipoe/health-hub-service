@@ -10,24 +10,29 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Data
 @Builder
-@Table(name = "doctor")
-//@Accessors(chain = true)
+@Table(name = "Doctor")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Doctor implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long doctor_id;
-//    private String name;
-//    @Column(length = 100)
+    private String name;
+    @Column(length = 255)
     private String email ;
     private String password;
+    private Sex sex;
+    private LocalDate dateOfBirth;
+    private int phoneNumber;
+    private String specialty;
+    private int experienceInYears;
 
     @Enumerated(EnumType.STRING)
     private Role role;

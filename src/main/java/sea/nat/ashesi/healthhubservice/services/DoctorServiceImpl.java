@@ -1,49 +1,26 @@
 package sea.nat.ashesi.healthhubservice.services;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sea.nat.ashesi.healthhubservice.config.JwtService;
+import sea.nat.ashesi.healthhubservice.dto.PatientDto;
 import sea.nat.ashesi.healthhubservice.exception.UserException;
 import sea.nat.ashesi.healthhubservice.model.Doctor;
+import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.DoctorRepository;
-import java.util.Date;
+import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final JwtService jwtService;
-
-    @Override
-    public boolean signUpDoctor(Doctor doctor) {
-        Optional<Doctor> foundUser = doctorRepository.findByEmail(doctor.getEmail());
-        if(foundUser.isPresent()) {
-            throw new UserException("A user with this email already exists");
-        }
-        doctorRepository.save(doctor);
-        return true;
-    }
-
-    @Override
-    public String signInDoctor(Doctor doctor) {
-        Optional<Doctor> foundUser = doctorRepository.findByEmail(doctor.getEmail());
-        if(foundUser.isPresent()) {
-//            if(bCryptPasswordEncoder.matches(foundUser.get().getPassword(), doctor.getPassword())) {
-                String token = Jwts.builder()
-                        .setSubject(foundUser.get().getEmail())
-                        .setExpiration(new Date(System.currentTimeMillis() + 864000000))
-                        .signWith(SignatureAlgorithm.HS512, "secretkey")
-                        .compact();
-//                response.addHeader("Authorization", "Bearer " + token);
-                return token;
-//            }
-        }
-        throw new UserException("User does not exist");
-    }
 
     @Override
     public Doctor getDoctor(String jwt) {
@@ -54,4 +31,25 @@ public class DoctorServiceImpl implements DoctorService {
         }
         throw new UserException("User does not exist");
     }
+
+    @Override
+    public List<PatientDto> getAllPatients() {
+        List<Patient> patientsEntities =  patientRepository.findAll();
+
+        List<PatientDto> patientsDto = patientsEntities
+                .stream()
+                .map(patient -> PatientDto.builder()
+                        .firstNames(patient.getFirstNames())
+                        .surname(patient.getSurname())
+                        .dateOfBirth(patient.getDateOfBirth())
+                        .sex(patient.getSex())
+                        .height(patient.getHeight())
+                        .nationality(patient.getNationality())
+                        .personalIdNumber(patient.getPersonalIdNumber())
+                        .build())
+                .collect(Collectors.toList());
+
+        return patientsDto;
+    }
+
 }
