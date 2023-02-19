@@ -10,16 +10,16 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Builder
-@Table(name = "Medical_Record")
+@Table(name = "Record")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Record {
+public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long record_id;
+    private long recordId;
     private int pulseRate;
     private int bloodPressure;
     private int temperature;
     private int glucoseLevel;
-    private LocalDate date;
+    private LocalDate dateCreated;
 }

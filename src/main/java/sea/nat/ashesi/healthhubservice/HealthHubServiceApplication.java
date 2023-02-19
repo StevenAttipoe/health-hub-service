@@ -35,7 +35,8 @@ public class HealthHubServiceApplication {
 					.nationality("Ghanaian")
 					.personalIdNumber("555-1234")
 					.sex(Sex.Male)
-					.dateOfBirth(LocalDate.now())
+					.signUpDate(LocalDate.now())
+					.dateOfBirth(LocalDate.parse("1980-11-14"))
 					.height(1.7)
 					.build();
 
@@ -45,12 +46,50 @@ public class HealthHubServiceApplication {
 					.nationality("Ghanaian")
 					.personalIdNumber("123-567")
 					.sex(Sex.Female)
-					.dateOfBirth(LocalDate.now())
+					.signUpDate(LocalDate.now())
+					.dateOfBirth(LocalDate.parse("1999-04-21"))
 					.height(1.5)
+					.build();
+
+			var patient3= Patient.builder()
+					.firstNames("Jamie")
+					.surname("Otoo")
+					.nationality("Ghanaian")
+					.personalIdNumber("242-567")
+					.sex(Sex.Male)
+					.signUpDate(LocalDate.now())
+					.dateOfBirth(LocalDate.parse("2000-05-01"))
+					.height(1.2)
+					.build();
+
+			var patient4= Patient.builder()
+					.firstNames("Marcus")
+					.surname("Richardson")
+					.nationality("Ghanaian")
+					.personalIdNumber("242-567")
+					.sex(Sex.Male)
+					.signUpDate(LocalDate.now())
+					.dateOfBirth(LocalDate.parse("1990-11-14"))
+					.height(1.0)
+					.build();
+
+			var patient5= Patient.builder()
+					.firstNames("Daniel")
+					.surname("Bedu")
+					.nationality("Ghanaian")
+					.personalIdNumber("242-567")
+					.sex(Sex.Male)
+					.signUpDate(LocalDate.now())
+					.dateOfBirth(LocalDate.parse("2003-10-10"))
+					.height(1.8)
 					.build();
 
 			patientRepository.save(patient);
 			patientRepository.save(patient2);
+			patientRepository.save(patient3);
+			patientRepository.save(patient3);
+			patientRepository.save(patient5);
+
 		};
 	}
 

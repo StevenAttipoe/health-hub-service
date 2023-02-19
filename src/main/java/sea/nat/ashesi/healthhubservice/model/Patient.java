@@ -11,13 +11,13 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Builder
-@Table(name = "Patients")
+@Table(name = "Patient")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long patient_id;
+    private long patientId;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -33,6 +33,7 @@ public class Patient {
     private String placeOfIssuance;
     private LocalDate dateOfIssuance;
     private LocalDate dateOfExpiry;
+    private LocalDate signUpDate;
 }
 
 

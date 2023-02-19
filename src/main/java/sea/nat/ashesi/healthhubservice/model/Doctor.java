@@ -23,7 +23,7 @@ import java.util.List;
 public class Doctor implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long doctor_id;
+    private long doctorId;
     private String name;
     @Column(length = 255)
     private String email ;
