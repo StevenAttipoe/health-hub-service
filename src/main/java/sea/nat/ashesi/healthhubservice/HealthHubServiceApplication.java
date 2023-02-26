@@ -87,7 +87,7 @@ public class HealthHubServiceApplication {
 			patientRepository.save(patient);
 			patientRepository.save(patient2);
 			patientRepository.save(patient3);
-			patientRepository.save(patient3);
+			patientRepository.save(patient4);
 			patientRepository.save(patient5);
 
 		};

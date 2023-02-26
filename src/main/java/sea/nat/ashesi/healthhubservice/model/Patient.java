@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -34,6 +35,13 @@ public class Patient {
     private LocalDate dateOfIssuance;
     private LocalDate dateOfExpiry;
     private LocalDate signUpDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id_fk")
+    private Doctor doctor;
+
+    @OneToMany(mappedBy="patient")
+    private List<MedicalRecord> medicalRecords;
 }
 
 

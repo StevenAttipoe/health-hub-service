@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -36,6 +38,9 @@ public class Doctor implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy="doctor")
+    private List<Patient> patients;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

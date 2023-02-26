@@ -1,4 +1,4 @@
-package sea.nat.ashesi.healthhubservice.services;
+package sea.nat.ashesi.healthhubservice.services.impl;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,8 @@ import sea.nat.ashesi.healthhubservice.model.Doctor;
 import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.DoctorRepository;
 import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
+import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,7 +21,6 @@ import java.util.stream.Collectors;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
     private final JwtService jwtService;
 
     @Override
@@ -30,26 +31,6 @@ public class DoctorServiceImpl implements DoctorService {
             return doctorOptional.get();
         }
         throw new UserException("User does not exist");
-    }
-
-    @Override
-    public List<PatientDto> getAllPatients() {
-        List<Patient> patientsEntities =  patientRepository.findAll();
-
-        List<PatientDto> patientsDto = patientsEntities
-                .stream()
-                .map(patient -> PatientDto.builder()
-                        .firstNames(patient.getFirstNames())
-                        .surname(patient.getSurname())
-                        .dateOfBirth(patient.getDateOfBirth())
-                        .sex(patient.getSex())
-                        .height(patient.getHeight())
-                        .nationality(patient.getNationality())
-                        .personalIdNumber(patient.getPersonalIdNumber())
-                        .build())
-                .collect(Collectors.toList());
-
-        return patientsDto;
     }
 
 }

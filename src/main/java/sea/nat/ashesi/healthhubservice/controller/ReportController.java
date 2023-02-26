@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sea.nat.ashesi.healthhubservice.model.Report;
-import sea.nat.ashesi.healthhubservice.services.ReportService;
+import sea.nat.ashesi.healthhubservice.services.interfaces.ReportService;
 
 @RestController
 @AllArgsConstructor

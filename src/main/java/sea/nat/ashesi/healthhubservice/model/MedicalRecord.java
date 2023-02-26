@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Builder
-@Table(name = "Record")
+@Table(name = "MedicalRecord")
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicalRecord {
@@ -22,4 +22,8 @@ public class MedicalRecord {
     private int temperature;
     private int glucoseLevel;
     private LocalDate dateCreated;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id_fk")
+    private Patient patient;
 }
