@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/v1/patient")
 @AllArgsConstructor
@@ -28,7 +27,7 @@ public class PatientController {
 
         Map<String, Object> response = new HashMap<>();
         List<PatientDto> patientDtoList = patientService.getPatients(pageNo, pageSize, sortBy);
-        response.put("content", patientDtoList);
+        response.put("patients", patientDtoList);
         response.put("totalPages", patientService.getTotalPage(pageNo, pageSize, sortBy));
 
         return new ResponseEntity<>(response, HttpStatus.OK);

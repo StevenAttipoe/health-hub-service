@@ -1,9 +1,12 @@
 package sea.nat.ashesi.healthhubservice.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,7 +26,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("http://localhost:3000/")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("*");
     }
@@ -33,8 +36,9 @@ public class SecurityConfig implements WebMvcConfigurer {
         http
                 .csrf()
                 .disable()
-                .authorizeHttpRequests()
-                .antMatchers("/api/v1/**")
+                .cors(Customizer.withDefaults())
+                .authorizeRequests()
+                .antMatchers("/api/v1/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -44,7 +48,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

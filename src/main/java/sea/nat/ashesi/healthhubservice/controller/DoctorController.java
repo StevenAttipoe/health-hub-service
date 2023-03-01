@@ -7,9 +7,7 @@ import sea.nat.ashesi.healthhubservice.config.JwtService;
 import sea.nat.ashesi.healthhubservice.dto.PatientDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
 
-import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000/")
 @RequestMapping("api/v1/doctor")
 @AllArgsConstructor
 @RestController
@@ -20,7 +18,7 @@ public class DoctorController {
 
     @GetMapping("/getMail")
     public ResponseEntity<String> getDoctorName(@RequestHeader("Authorization") String authorizationHeader ) {
-        String token = authorizationHeader.substring(7); // assuming the token is in the "Authorization" header preceded by "Bearer "
+        String token = authorizationHeader.substring(7);
         String email = jwtService.extractUsername(token);
         return ResponseEntity.ok(email);
     }
