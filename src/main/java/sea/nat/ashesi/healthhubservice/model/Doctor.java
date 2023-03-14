@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -26,20 +24,19 @@ public class Doctor implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long doctorId;
-    private String name;
+    private String fullName;
     @Column(length = 255)
     private String email ;
     private String password;
     private Sex sex;
-    private LocalDate dateOfBirth;
     private int phoneNumber;
-    private String specialty;
+    private String speciality;
     private int experienceInYears;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy="doctor")
+    @OneToMany(mappedBy="doctor", cascade = CascadeType.ALL)
     private List<Patient> patients;
 
     @Override

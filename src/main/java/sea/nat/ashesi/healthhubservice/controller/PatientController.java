@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sea.nat.ashesi.healthhubservice.dto.PatientDto;
-import sea.nat.ashesi.healthhubservice.model.Patient;
+import sea.nat.ashesi.healthhubservice.dto.response.PatientDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class PatientController {
 
     @GetMapping("/getPatients")
     public ResponseEntity<Map<String, Object>> getPatients(
-            @RequestParam(defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "4") int pageSize,
             @RequestParam(defaultValue = "patientId") String sortBy) {
 

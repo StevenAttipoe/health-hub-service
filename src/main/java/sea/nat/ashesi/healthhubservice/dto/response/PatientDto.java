@@ -1,4 +1,4 @@
-package sea.nat.ashesi.healthhubservice.dto;
+package sea.nat.ashesi.healthhubservice.dto.response;
 
 import lombok.Builder;
 import lombok.Value;
@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @Builder
 @Value
 public class PatientDto {
-    private String surname;
-    private String firstNames;
+    private String fullName;
     private String nationality;
     private Sex sex;
     private LocalDate dateOfBirth;

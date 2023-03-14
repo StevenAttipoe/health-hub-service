@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sea.nat.ashesi.healthhubservice.config.JwtService;
-import sea.nat.ashesi.healthhubservice.dto.PatientDto;
+import sea.nat.ashesi.healthhubservice.dto.response.DoctorDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
-
 
 @RequestMapping("api/v1/doctor")
 @AllArgsConstructor
@@ -16,11 +15,11 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final JwtService jwtService;
 
-    @GetMapping("/getMail")
-    public ResponseEntity<String> getDoctorName(@RequestHeader("Authorization") String authorizationHeader ) {
+    @GetMapping("/get")
+    public ResponseEntity<DoctorDto> getDoctor(@RequestHeader("Authorization") String authorizationHeader ) {
         String token = authorizationHeader.substring(7);
         String email = jwtService.extractUsername(token);
-        return ResponseEntity.ok(email);
+        return ResponseEntity.ok(doctorService.getDoctor(email));
     }
 
 }

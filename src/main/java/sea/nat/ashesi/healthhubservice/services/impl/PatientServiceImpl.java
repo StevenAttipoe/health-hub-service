@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import sea.nat.ashesi.healthhubservice.dto.PatientDto;
+import sea.nat.ashesi.healthhubservice.dto.response.PatientDto;
 import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
@@ -23,18 +23,15 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
         Page<Patient> patientsEntities = patientRepository.findAll(pageable);
         return patientsEntities
                 .stream()
                 .map(patient -> PatientDto.builder()
-                        .firstNames(patient.getFirstNames())
-                        .surname(patient.getSurname())
+                        .fullName(patient.getFullName())
                         .dateOfBirth(patient.getDateOfBirth())
                         .sex(patient.getSex())
                         .height(patient.getHeight())
                         .nationality(patient.getNationality())
-                        .personalIdNumber(patient.getPersonalIdNumber())
                         .build())
                 .collect(Collectors.toList());
     }

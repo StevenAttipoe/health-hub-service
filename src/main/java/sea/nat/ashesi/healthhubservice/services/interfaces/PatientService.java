@@ -1,6 +1,6 @@
 package sea.nat.ashesi.healthhubservice.services.interfaces;
 
-import sea.nat.ashesi.healthhubservice.dto.PatientDto;
+import sea.nat.ashesi.healthhubservice.dto.response.PatientDto;
 import java.util.List;
 
 public interface PatientService {
