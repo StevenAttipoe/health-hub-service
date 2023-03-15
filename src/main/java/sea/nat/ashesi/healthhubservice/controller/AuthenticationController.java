@@ -2,7 +2,7 @@ package sea.nat.ashesi.healthhubservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sea.nat.ashesi.healthhubservice.config.AuthenticationService;
+import sea.nat.ashesi.healthhubservice.services.interfaces.AuthenticationService;
 import sea.nat.ashesi.healthhubservice.dto.request.PatientSignUpDto;
 import sea.nat.ashesi.healthhubservice.model.Doctor;
 

@@ -8,6 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,10 +38,10 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .csrf()
                 .disable()
                 .cors(Customizer.withDefaults())
-                .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
-                .and().authorizeRequests().antMatchers("/swagger-ui/**").permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .authorizeRequests().antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

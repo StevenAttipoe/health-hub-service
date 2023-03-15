@@ -1,4 +1,4 @@
-package sea.nat.ashesi.healthhubservice.config;
+package sea.nat.ashesi.healthhubservice.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +12,7 @@ import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.model.Role;
 import sea.nat.ashesi.healthhubservice.repositories.DoctorRepository;
 import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
+import sea.nat.ashesi.healthhubservice.services.interfaces.AuthenticationService;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final DoctorService doctorService;
@@ -27,6 +28,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    @Override
     public String signUpDoctor(Doctor request) {
         var doctor = Doctor.builder()
                 .email(request.getEmail())
@@ -43,6 +45,7 @@ public class AuthenticationService {
         return jwtToken;
     }
 
+    @Override
     public String signUpPatient(PatientSignUpDto request) {
         var patient = Patient.builder()
                 .fullName(request.getFirstNames() + " " +request.getSurname())
@@ -61,6 +64,7 @@ public class AuthenticationService {
         return jwtToken;
     }
 
+    @Override
     public String authenticate(Doctor request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
