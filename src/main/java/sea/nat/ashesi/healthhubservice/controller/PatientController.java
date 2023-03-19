@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sea.nat.ashesi.healthhubservice.config.JwtService;
-import sea.nat.ashesi.healthhubservice.dto.response.DoctorDto;
+import sea.nat.ashesi.healthhubservice.dto.request.PatientSignUpDto;
 import sea.nat.ashesi.healthhubservice.dto.response.PatientDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
+import sea.nat.ashesi.healthhubservice.utils.PatientConvertor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,14 +19,16 @@ import java.util.Map;
 public class PatientController {
 
     private final PatientService patientService;
-    private final JwtService jwtService;
+    private final PatientConvertor patientConvertor;
+
+    @PostMapping("/signup")
+    public ResponseEntity signUpPatient(@RequestBody PatientSignUpDto request) {
+        return ResponseEntity.ok(patientService.signUpPatient(request));
+    }
 
     @GetMapping("/get")
-    public ResponseEntity<PatientDto> getPatient(@RequestHeader("Authorization") String authorizationHeader ) {
-        String token = authorizationHeader.substring(7);
-        String ghanaCardNumber = jwtService.extractUsername(token);
-        System.err.println(ghanaCardNumber);
-        return ResponseEntity.ok(patientService.getPatient(ghanaCardNumber));
+    public ResponseEntity<PatientDto> getPatient() {
+        return ResponseEntity.ok(patientConvertor.convert(patientService.getPatient()));
     }
 
     @GetMapping("/getAll")
