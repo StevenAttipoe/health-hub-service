@@ -49,7 +49,9 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
 
-        currentIndex = (currentIndex + 1) % doctors.size();
+        if (doctors.size() > 0) {
+            currentIndex = (currentIndex + 1) % doctors.size();
+        }
         return nextDoctor;
     }
 

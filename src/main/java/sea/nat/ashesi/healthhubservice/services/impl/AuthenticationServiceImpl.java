@@ -17,6 +17,7 @@ import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var doctor = Doctor.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .sex(request.getSex())
+                .gender(request.getGender())
                 .phoneNumber(request.getPhoneNumber())
                 .experienceInYears(request.getExperienceInYears())
                 .speciality(request.getSpeciality())
@@ -47,25 +48,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String signUpPatient(PatientSignUpDto request) {
+        System.err.println(request.getDateOfBirth());
         var patient = Patient.builder()
-                .fullName(request.getFirstNames() + " " +request.getSurname())
+                .surname(request.getSurname())
+                .firstNames(request.getFirstNames())
                 .nationality(request.getNationality())
-                .sex(request.getSex())
+                .gender(request.getGender())
                 .dateOfBirth(LocalDate.parse(request.getDateOfBirth(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                .height((request.getHeight()))
+                .height(request.getHeight())
                 .placeOfIssuance(request.getPlaceOfIssuance())
+                .personalIdNumber(request.getPersonalIdNumber())
                 .signUpDate(LocalDate.now())
                 .role(Role.USER)
                 .doctor(doctorService.getNextDoctor())
                 .build();
 
-        patientRepository.save(patient);
+        Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(request.getPersonalIdNumber());
+        if (patientOptional.isEmpty()) {
+            patientRepository.save(patient);
+        }
         var jwtToken = jwtService.generateToken(patient);
         return jwtToken;
     }
 
     @Override
-    public String authenticate(Doctor request) {
+    public String authenticateDoctor(Doctor request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

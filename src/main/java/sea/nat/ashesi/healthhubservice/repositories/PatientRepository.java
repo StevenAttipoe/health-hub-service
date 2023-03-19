@@ -5,8 +5,11 @@ import org.springframework.stereotype.Repository;
 import sea.nat.ashesi.healthhubservice.model.Patient;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     long countBySignUpDate(LocalDate date);
+
+    Optional<Patient> findByPersonalIdNumber(String personalIdNumber);
 }

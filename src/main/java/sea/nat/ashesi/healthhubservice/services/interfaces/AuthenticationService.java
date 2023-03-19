@@ -8,5 +8,5 @@ public interface AuthenticationService {
 
     String signUpPatient(PatientSignUpDto request);
 
-    String authenticate(Doctor request);
+    String authenticateDoctor(Doctor request);
 }

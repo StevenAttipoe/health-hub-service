@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface PatientService {
 
+    PatientDto getPatient(String email);
+
     List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy);
 
     int getTotalPage(int pageNo, int pageSize, String sortBy);

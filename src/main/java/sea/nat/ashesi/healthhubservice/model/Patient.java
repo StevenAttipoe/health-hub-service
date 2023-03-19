@@ -27,13 +27,15 @@ public class Patient implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String fullName;
-    private String nationality;
-    private Sex sex;
-    private LocalDate dateOfBirth;
-    private double height;
-    private String placeOfIssuance;
-    private LocalDate signUpDate;
+    String surname;
+    String firstNames;
+    String nationality;
+    Gender gender;
+    LocalDate dateOfBirth;
+    String height;
+    String placeOfIssuance;
+    String personalIdNumber;
+    LocalDate signUpDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id_fk")
@@ -54,7 +56,7 @@ public class Patient implements UserDetails {
 
     @Override
     public String getUsername() {
-        return fullName;
+        return personalIdNumber;
     }
 
     @Override

@@ -12,18 +12,33 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sea.nat.ashesi.healthhubservice.model.Doctor;
+import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.DoctorRepository;
+import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
+
+import java.util.Optional;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> (UserDetails) doctorRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username -> {
+            Optional<Doctor> doctor = doctorRepository.findByEmail(username);
+            Optional<Patient> patient = patientRepository.findByPersonalIdNumber(username) ;
+            if (doctor.isPresent()) {
+                return doctor.get();
+            } else if (patient.isPresent()) {
+                return patient.get();
+            } else {
+                throw new UsernameNotFoundException("User not found");
+            }
+        };
     }
 
     @Bean

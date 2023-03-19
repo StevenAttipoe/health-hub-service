@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sea.nat.ashesi.healthhubservice.config.JwtService;
+import sea.nat.ashesi.healthhubservice.dto.response.DoctorDto;
 import sea.nat.ashesi.healthhubservice.dto.response.PatientDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
 
@@ -16,9 +18,18 @@ import java.util.Map;
 @AllArgsConstructor
 public class PatientController {
 
-    private PatientService patientService;
+    private final PatientService patientService;
+    private final JwtService jwtService;
 
-    @GetMapping("/getPatients")
+    @GetMapping("/get")
+    public ResponseEntity<PatientDto> getPatient(@RequestHeader("Authorization") String authorizationHeader ) {
+        String token = authorizationHeader.substring(7);
+        String ghanaCardNumber = jwtService.extractUsername(token);
+        System.err.println(ghanaCardNumber);
+        return ResponseEntity.ok(patientService.getPatient(ghanaCardNumber));
+    }
+
+    @GetMapping("/getAll")
     public ResponseEntity<Map<String, Object>> getPatients(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "4") int pageSize,

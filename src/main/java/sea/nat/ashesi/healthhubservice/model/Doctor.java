@@ -28,7 +28,7 @@ public class Doctor implements UserDetails {
     @Column(length = 255)
     private String email ;
     private String password;
-    private Sex sex;
+    private Gender gender;
     private int phoneNumber;
     private String speciality;
     private int experienceInYears;

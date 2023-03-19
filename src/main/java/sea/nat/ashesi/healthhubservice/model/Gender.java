@@ -1,6 +1,6 @@
 package sea.nat.ashesi.healthhubservice.model;
 
-public enum Sex {
+public enum Gender {
     M,
     F
 }
