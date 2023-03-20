@@ -10,6 +10,7 @@ import sea.nat.ashesi.healthhubservice.services.interfaces.MedicalRecordService;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,14 +20,18 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     private final PatientService patientService;
 
     @Override
-    public MedicalRecord getMedicalRecord(long patientId) {
+    public MedicalRecord getRecentMedicalRecord(long patientId) {
         Optional<MedicalRecord> medicalRecord =
-                medicalRecordRepository.findTopByPatientIdOrderByDateCreatedDesc(patientId);
-
+                medicalRecordRepository.findFirstByPatientPatientIdOrderByDateCreatedDesc(patientId);
         if (medicalRecord.isPresent()){
             return medicalRecord.get();
         }
         throw new MedicalRecordException("This patient does not have any records");
+    }
+
+    @Override
+    public MedicalRecord updateMedicalRecord(String annotation) {
+        return new MedicalRecord();
     }
 
     @Override
@@ -42,6 +47,16 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
         medicalRecordRepository.save(medicalRecord);
         return true;
+    }
+
+    @Override
+    public List<MedicalRecord> getMedicalRecords(long patientId) {
+        Optional<List<MedicalRecord>> medicalRecords =
+                medicalRecordRepository.findByPatientPatientIdOrderByDateCreatedDesc(patientId);
+        if (medicalRecords.isPresent()){
+            return medicalRecords.get();
+        }
+        throw new MedicalRecordException("This patient does not have any records");
     }
 
 

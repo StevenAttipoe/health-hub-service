@@ -1,5 +1,7 @@
 package sea.nat.ashesi.healthhubservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,10 +39,12 @@ public class Patient implements UserDetails {
     String personalIdNumber;
     LocalDate signUpDate;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id_fk")
     private Doctor doctor;
 
+    @JsonIgnore
     @OneToMany(mappedBy="patient", cascade = CascadeType.ALL)
     private List<MedicalRecord> medicalRecords;
 

@@ -7,7 +7,6 @@ import sea.nat.ashesi.healthhubservice.config.JwtService;
 import sea.nat.ashesi.healthhubservice.dto.request.DoctorLogInDto;
 import sea.nat.ashesi.healthhubservice.dto.request.DoctorSignUpDto;
 import sea.nat.ashesi.healthhubservice.dto.response.DoctorDto;
-import sea.nat.ashesi.healthhubservice.model.Doctor;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
 
 @RequestMapping("api/v1/doctor")
@@ -17,7 +16,7 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final JwtService jwtService;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity authenticate(@RequestBody DoctorLogInDto request) {
         return ResponseEntity.ok(doctorService.authenticateDoctor(request));
     }

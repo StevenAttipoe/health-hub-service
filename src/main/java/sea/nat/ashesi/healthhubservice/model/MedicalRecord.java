@@ -1,5 +1,7 @@
 package sea.nat.ashesi.healthhubservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,9 @@ public class MedicalRecord {
     private int glucoseLevel;
     private LocalDate dateCreated;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id_fk")
     private Patient patient;
+
 }

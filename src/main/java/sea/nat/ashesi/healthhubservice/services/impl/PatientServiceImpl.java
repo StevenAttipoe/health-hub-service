@@ -62,7 +62,7 @@ public class PatientServiceImpl implements PatientService {
         String personalIdNumber = jwtService.extractUsername(token);
         Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(personalIdNumber);
         if(patientOptional.isPresent()) {
-           return  patientOptional.get();
+           return patientOptional.get();
         }
         throw new UserException("User does not exist");
     }

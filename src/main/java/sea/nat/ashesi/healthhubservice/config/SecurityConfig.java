@@ -36,7 +36,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .disable()
                 .cors(Customizer.withDefaults())
                 .authorizeRequests().antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-                .and().authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/v1/patient/signup", "/api/v1/doctor/login", "/api/v1/doctor/signup").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
