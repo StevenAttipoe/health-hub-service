@@ -13,6 +13,7 @@ public class MedicalRecordDto {
     int bloodPressure;
     int temperature;
     int glucoseLevel;
+    boolean isChecked;
     LocalDate dateCreated;
     LocalTime timeCreated;
 }

@@ -23,6 +23,7 @@ public class MedicalRecord {
     private int bloodPressure;
     private int temperature;
     private int glucoseLevel;
+    private boolean isChecked;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
 

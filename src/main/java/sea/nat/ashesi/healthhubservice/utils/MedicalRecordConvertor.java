@@ -22,6 +22,7 @@ public class MedicalRecordConvertor implements Converter<MedicalRecord, MedicalR
                 .glucoseLevel(medicalRecord.getGlucoseLevel())
                 .pulseRate(medicalRecord.getPulseRate())
                 .temperature(medicalRecord.getTemperature())
+                .isChecked(medicalRecord.isChecked())
                 .dateCreated(medicalRecord.getDateCreated())
                 .timeCreated(medicalRecord.getTimeCreated())
                 .build();
@@ -34,6 +35,7 @@ public class MedicalRecordConvertor implements Converter<MedicalRecord, MedicalR
                 .pulseRate(medicalRecordDto.getPulseRate())
                 .temperature(medicalRecordDto.getTemperature())
                 .patient(patientService.getPatient())
+                .isChecked(false)
                 .dateCreated(LocalDate.now())
                 .timeCreated(LocalTime.now())
                 .build();
