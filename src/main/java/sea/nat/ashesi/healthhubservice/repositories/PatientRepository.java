@@ -1,5 +1,7 @@
 package sea.nat.ashesi.healthhubservice.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import sea.nat.ashesi.healthhubservice.model.Patient;
@@ -12,4 +14,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     long countBySignUpDate(LocalDate date);
 
     Optional<Patient> findByPersonalIdNumber(String personalIdNumber);
+
+    Page<Patient> findByDoctorDoctorId(Long doctorId, Pageable pageable);
+
 }

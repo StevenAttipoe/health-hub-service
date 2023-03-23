@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import sea.nat.ashesi.healthhubservice.config.JwtService;
 import sea.nat.ashesi.healthhubservice.dto.request.PatientSignUpDto;
@@ -15,6 +17,7 @@ import sea.nat.ashesi.healthhubservice.model.Role;
 import sea.nat.ashesi.healthhubservice.repositories.PatientRepository;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
+import sea.nat.ashesi.healthhubservice.utils.PatientConvertor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -28,8 +31,10 @@ import java.util.stream.Collectors;
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
+    private final PatientConvertor patientConvertor;
     private final DoctorService doctorService;
     private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
     private final HttpServletRequest request;
 
     @Override
@@ -57,10 +62,19 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public boolean authenticatePatient() {
+        String token = request.getHeader("Authorization").substring(7);
+        String username = jwtService.extractUsername(token);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
+        return jwtService.isTokenValid(token, userDetails);
+    }
+
+    @Override
     public Patient getPatient() {
         String token = request.getHeader("Authorization").substring(7);
-        String personalIdNumber = jwtService.extractUsername(token);
-        Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(personalIdNumber);
+        String userName = jwtService.extractUsername(token);
+        Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(userName);
         if(patientOptional.isPresent()) {
            return patientOptional.get();
         }
@@ -69,20 +83,14 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Patient> patientsEntities = patientRepository.findAll(pageable);
-        return patientsEntities
-                .stream()
-                .map(patient -> PatientDto.builder()
-                    .surname(patient.getSurname())
-                    .firstNames(patient.getFirstNames())
-                    .nationality(patient.getNationality())
-                    .gender(patient.getGender())
-                    .dateOfBirth(patient.getDateOfBirth().toString())
-                    .height(patient.getHeight())
-                    .placeOfIssuance(patient.getPlaceOfIssuance())
-                    .build())
-            .collect(Collectors.toList());
+        String token = request.getHeader("Authorization").substring(7);
+        var doctor = doctorService.getDoctor(jwtService.extractUsername(token));
+
+        Page<Patient> patientsEntities = patientRepository.findByDoctorDoctorId(
+                doctor.getDoctorId(),
+                PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
+
+        return patientsEntities.stream().map(patientConvertor::convert).collect(Collectors.toList());
     }
 
     @Override

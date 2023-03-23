@@ -10,8 +10,8 @@ public interface DoctorService {
 
     String authenticateDoctor(DoctorLogInDto request);
 
-    DoctorDto getDoctor(String email);
+    Doctor getDoctor(String email);
 
-    Doctor getNextDoctor();
+    sea.nat.ashesi.healthhubservice.model.Doctor getNextDoctor();
 
 }

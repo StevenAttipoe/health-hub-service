@@ -3,7 +3,7 @@ package sea.nat.ashesi.healthhubservice.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sea.nat.ashesi.healthhubservice.dto.MedicalRecordDto;
+import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
 import sea.nat.ashesi.healthhubservice.services.interfaces.MedicalRecordService;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
@@ -23,7 +23,7 @@ public class MedicalRecordController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<MedicalRecord>> getRecords(){
+    public ResponseEntity<List<MedicalRecordDto>> getRecords(){
         return ResponseEntity.ok(medicalRecordService.getMedicalRecords(patientService.getPatient().getPatientId()));
     }
 

@@ -10,6 +10,8 @@ public interface PatientService {
 
     String signUpPatient(PatientSignUpDto request);
 
+    boolean authenticatePatient();
+
     Patient getPatient();
 
     List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy);

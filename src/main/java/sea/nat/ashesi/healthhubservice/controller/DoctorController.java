@@ -8,12 +8,14 @@ import sea.nat.ashesi.healthhubservice.dto.request.DoctorLogInDto;
 import sea.nat.ashesi.healthhubservice.dto.request.DoctorSignUpDto;
 import sea.nat.ashesi.healthhubservice.dto.response.DoctorDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.DoctorService;
+import sea.nat.ashesi.healthhubservice.utils.DoctorConvertor;
 
 @RequestMapping("api/v1/doctor")
 @AllArgsConstructor
 @RestController
 public class DoctorController {
     private final DoctorService doctorService;
+    private final DoctorConvertor doctorConvertor;
     private final JwtService jwtService;
 
     @PostMapping("/login")
@@ -30,7 +32,7 @@ public class DoctorController {
     public ResponseEntity<DoctorDto> getDoctor(@RequestHeader("Authorization") String authorizationHeader ) {
         String token = authorizationHeader.substring(7);
         String email = jwtService.extractUsername(token);
-        return ResponseEntity.ok(doctorService.getDoctor(email));
+        return ResponseEntity.ok(doctorConvertor.convert(doctorService.getDoctor(email)));
     }
 
 }

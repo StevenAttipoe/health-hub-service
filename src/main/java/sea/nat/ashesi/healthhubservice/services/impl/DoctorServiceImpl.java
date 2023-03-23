@@ -31,7 +31,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public String signUpDoctor(DoctorSignUpDto request) {
-        var doctor = Doctor.builder()
+        var doctor = sea.nat.ashesi.healthhubservice.model.Doctor.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .gender(request.getGender())
@@ -61,16 +61,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public DoctorDto getDoctor(String email) {
+    public Doctor getDoctor(String email) {
         Optional<Doctor> doctorOptional = doctorRepository.findByEmail(email);
-        if(doctorOptional.isPresent()) {
-            var doctor = doctorOptional.get();
-            return DoctorDto.builder()
-                    .name(doctor.getFullName())
-                    .email(doctor.getEmail())
-                    .phoneNumber(doctor.getPhoneNumber())
-                    .speciality(doctor.getSpeciality())
-                    .build();
+        if (doctorOptional.isPresent()) {
+            return doctorOptional.get();
         }
         throw new UserException("User does not exist");
     }
@@ -78,11 +72,11 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor getNextDoctor(){
         var doctors = doctorRepository.findAll();
-        Doctor nextDoctor = null;
+        sea.nat.ashesi.healthhubservice.model.Doctor nextDoctor = null;
         int minPatients = Integer.MAX_VALUE;
 
         for (int i = 0; i < doctors.size(); i++) {
-            Doctor doctor = doctors.get(i);
+            sea.nat.ashesi.healthhubservice.model.Doctor doctor = doctors.get(i);
             int numPatients = doctor.getPatients().size();
 
             if (numPatients < minPatients) {

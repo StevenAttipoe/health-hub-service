@@ -26,12 +26,17 @@ public class PatientController {
         return ResponseEntity.ok(patientService.signUpPatient(request));
     }
 
+    @GetMapping("/auth")
+    public ResponseEntity authenticatePatient() {
+        return ResponseEntity.ok(patientService.authenticatePatient());
+    }
+
     @GetMapping("/get")
     public ResponseEntity<PatientDto> getPatient() {
         return ResponseEntity.ok(patientConvertor.convert(patientService.getPatient()));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get/all")
     public ResponseEntity<Map<String, Object>> getPatients(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "4") int pageSize,

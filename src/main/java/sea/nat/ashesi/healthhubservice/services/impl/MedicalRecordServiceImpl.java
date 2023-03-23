@@ -1,22 +1,29 @@
 package sea.nat.ashesi.healthhubservice.services.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import sea.nat.ashesi.healthhubservice.dto.MedicalRecordDto;
+import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.exception.MedicalRecordException;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
 import sea.nat.ashesi.healthhubservice.repositories.MedicalRecordRepository;
 import sea.nat.ashesi.healthhubservice.services.interfaces.MedicalRecordService;
 import sea.nat.ashesi.healthhubservice.services.interfaces.PatientService;
+import sea.nat.ashesi.healthhubservice.utils.MedicalRecordConvertor;
 
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class MedicalRecordServiceImpl implements MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
+    private final MedicalRecordConvertor medicalRecordConvertor;
     private final PatientService patientService;
 
     @Override
@@ -36,27 +43,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Override
     public boolean createMedicalRecord(MedicalRecordDto request) {
-        var medicalRecord = MedicalRecord.builder()
-                        .bloodPressure(request.getBloodPressure())
-                        .glucoseLevel(request.getGlucoseLevel())
-                        .pulseRate(request.getPulseRate())
-                        .temperature(request.getTemperature())
-                        .patient(patientService.getPatient())
-                        .dateCreated(LocalDate.now())
-                        .build();
-
-        medicalRecordRepository.save(medicalRecord);
+        medicalRecordRepository.save(medicalRecordConvertor.convert(request));
         return true;
     }
 
     @Override
-    public List<MedicalRecord> getMedicalRecords(long patientId) {
-        Optional<List<MedicalRecord>> medicalRecords =
-                medicalRecordRepository.findByPatientPatientIdOrderByDateCreatedDesc(patientId);
-        if (medicalRecords.isPresent()){
-            return medicalRecords.get();
-        }
-        throw new MedicalRecordException("This patient does not have any records");
+    public List<MedicalRecordDto> getMedicalRecords(long patientId) {
+        Pageable pageable = PageRequest.of(0, 4, Sort.by("timeCreated"));
+
+        Page<MedicalRecord> medicalRecordsEntities = medicalRecordRepository.findByPatientPatientId(patientId, pageable);
+
+        return medicalRecordsEntities
+                .stream()
+                .map(medicalRecordConvertor::convert)
+                .collect(Collectors.toList());
     }
 
 

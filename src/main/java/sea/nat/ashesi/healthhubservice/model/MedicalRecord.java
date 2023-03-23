@@ -1,13 +1,13 @@
 package sea.nat.ashesi.healthhubservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -24,6 +24,8 @@ public class MedicalRecord {
     private int temperature;
     private int glucoseLevel;
     private LocalDate dateCreated;
+    private LocalTime timeCreated;
+
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
