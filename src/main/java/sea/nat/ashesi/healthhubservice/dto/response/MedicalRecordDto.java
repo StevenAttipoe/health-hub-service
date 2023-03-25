@@ -5,6 +5,7 @@ import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Builder
 @Value
@@ -16,4 +17,5 @@ public class MedicalRecordDto {
     boolean isChecked;
     LocalDate dateCreated;
     LocalTime timeCreated;
+    String annotation;
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,6 +27,7 @@ public class MedicalRecord {
     private boolean isChecked;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
+    private String annotation;
 
 
     @JsonIgnore
