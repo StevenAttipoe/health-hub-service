@@ -27,7 +27,6 @@ public class MedicalRecord {
     private String notes;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
-    private String annotation;
 
 
     @JsonIgnore

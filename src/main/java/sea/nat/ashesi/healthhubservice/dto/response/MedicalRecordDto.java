@@ -15,9 +15,8 @@ public class MedicalRecordDto {
     int bloodPressure;
     int temperature;
     int glucoseLevel;
-    private String notes;
+    String notes;
     boolean isChecked;
     LocalDate dateCreated;
     LocalTime timeCreated;
-    String annotation;
 }
