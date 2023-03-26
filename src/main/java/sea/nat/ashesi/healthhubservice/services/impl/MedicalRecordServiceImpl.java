@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.exception.MedicalRecordException;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
-import sea.nat.ashesi.healthhubservice.model.Patient;
 import sea.nat.ashesi.healthhubservice.repositories.MedicalRecordRepository;
 import sea.nat.ashesi.healthhubservice.services.interfaces.MedicalRecordService;
 import sea.nat.ashesi.healthhubservice.utils.MedicalRecordConvertor;
 
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,13 +71,36 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Override
     public List<MedicalRecordDto> getMedicalRecords(long patientId, int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 4, Sort.by("timeCreated"));
+        Pageable pageable = PageRequest.of(pageNo, 4, (Sort.by("isChecked").and(Sort.by("dateCreated").descending())));
 
         Page<MedicalRecord> medicalRecordsEntities = medicalRecordRepository.findByPatientPatientId(patientId, pageable);
         return medicalRecordsEntities
                 .stream()
                 .map(medicalRecordConvertor::convert)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, Integer> getMedicalRecordsByMonth(long doctorId) {
+        Map<String, Integer> recordsByMonth = new LinkedHashMap<>();
+
+        // Get the current year and month
+        YearMonth currentYearMonth = YearMonth.now();
+
+        // Loop through each month of the year starting from January
+        for (int i = 1; i <= currentYearMonth.getMonthValue(); i++) {
+            // Get the start and end dates of the current month
+            LocalDate startDate = LocalDate.of(currentYearMonth.getYear(), i, 1);
+            LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+            // Get the count of medical records for the current month and doctor ID
+            int count = medicalRecordRepository.countByDateCreatedBetweenAndPatientDoctorDoctorId(
+                    startDate, endDate, doctorId);
+
+            // Add the count to the recordsByMonth map
+            recordsByMonth.put(startDate.getMonth().toString(), count);
+        }
+        return recordsByMonth;
     }
 
     @Override

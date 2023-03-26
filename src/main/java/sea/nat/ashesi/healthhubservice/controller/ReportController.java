@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sea.nat.ashesi.healthhubservice.model.Report;
+import sea.nat.ashesi.healthhubservice.dto.response.ReportDto;
 import sea.nat.ashesi.healthhubservice.services.interfaces.ReportService;
 
 @RestController
@@ -15,7 +15,7 @@ public class ReportController {
     public final ReportService reportService;
 
     @GetMapping("/getLatest")
-    public ResponseEntity<Report> getDoctorReport(){
+    public ResponseEntity<ReportDto> getDoctorReport(){
         return ResponseEntity.ok(reportService.getLatestReport());
     }
 }

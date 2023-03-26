@@ -105,8 +105,11 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public int getTotalPage(int pageNo, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Patient> patientsEntities = patientRepository.findAll(pageable);
+        String token = request.getHeader("Authorization").substring(7);
+        var doctor = doctorService.getDoctor(jwtService.extractUsername(token));
+        Page<Patient> patientsEntities = patientRepository.findByDoctorDoctorId(
+                doctor.getDoctorId(),
+                PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
         return patientsEntities.getTotalPages();
     }
 

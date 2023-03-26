@@ -1,7 +1,7 @@
 package sea.nat.ashesi.healthhubservice.services.interfaces;
 
-import sea.nat.ashesi.healthhubservice.model.Report;
+import sea.nat.ashesi.healthhubservice.dto.response.ReportDto;
 
 public interface ReportService {
-    Report getLatestReport();
+    ReportDto getLatestReport();
 }

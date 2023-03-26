@@ -4,6 +4,7 @@ import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MedicalRecordService {
     MedicalRecord getRecentMedicalRecord(long patientId);
@@ -15,6 +16,8 @@ public interface MedicalRecordService {
     boolean createMedicalRecord(MedicalRecordDto request);
 
     List<MedicalRecordDto> getMedicalRecords(long patientId, int pageNo);
+
+    Map<String, Integer> getMedicalRecordsByMonth(long doctorId);
 
     int getTotalPage(int pageNo, long patientId);
 
