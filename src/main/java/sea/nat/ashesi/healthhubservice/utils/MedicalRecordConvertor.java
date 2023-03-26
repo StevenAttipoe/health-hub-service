@@ -18,11 +18,13 @@ public class MedicalRecordConvertor implements Converter<MedicalRecord, MedicalR
     @Override
     public MedicalRecordDto convert(MedicalRecord medicalRecord) {
         return MedicalRecordDto.builder()
+                .recordId(medicalRecord.getRecordId())
                 .bloodPressure(medicalRecord.getBloodPressure())
                 .glucoseLevel(medicalRecord.getGlucoseLevel())
                 .pulseRate(medicalRecord.getPulseRate())
                 .temperature(medicalRecord.getTemperature())
                 .isChecked(medicalRecord.isChecked())
+                .notes(medicalRecord.getNotes())
                 .dateCreated(medicalRecord.getDateCreated())
                 .timeCreated(medicalRecord.getTimeCreated())
                 .build();

@@ -24,6 +24,7 @@ public class MedicalRecord {
     private int temperature;
     private int glucoseLevel;
     private boolean isChecked;
+    private String notes;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
     private String annotation;

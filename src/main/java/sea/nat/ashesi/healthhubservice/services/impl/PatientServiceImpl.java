@@ -82,6 +82,16 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public Patient getPatient(String patientId) {
+        System.err.println(patientId);
+        Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(patientId);
+        if(patientOptional.isPresent()) {
+            return patientOptional.get();
+        }
+        throw new UserException("User does not exist");
+    }
+
+    @Override
     public List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy) {
         String token = request.getHeader("Authorization").substring(7);
         var doctor = doctorService.getDoctor(jwtService.extractUsername(token));

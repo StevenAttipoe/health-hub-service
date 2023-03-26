@@ -10,10 +10,12 @@ import java.time.LocalTime;
 @Builder
 @Value
 public class MedicalRecordDto {
+    long recordId;
     int pulseRate;
     int bloodPressure;
     int temperature;
     int glucoseLevel;
+    private String notes;
     boolean isChecked;
     LocalDate dateCreated;
     LocalTime timeCreated;

@@ -19,6 +19,7 @@ public class PatientConvertor implements Converter<Patient, PatientDto> {
                 .height(patient.getHeight())
                 .placeOfIssuance(patient.getPlaceOfIssuance())
                 .assignedDoctor(patient.getDoctor().getFullName())
+                .personalIdNumber(patient.getPersonalIdNumber())
                 .build();
     }
 }

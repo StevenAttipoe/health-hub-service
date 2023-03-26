@@ -14,6 +14,8 @@ public interface PatientService {
 
     Patient getPatient();
 
+    Patient getPatient(String patientId);
+
     List<PatientDto> getPatients(int pageNo, int pageSize, String sortBy);
 
     int getTotalPage(int pageNo, int pageSize, String sortBy);
