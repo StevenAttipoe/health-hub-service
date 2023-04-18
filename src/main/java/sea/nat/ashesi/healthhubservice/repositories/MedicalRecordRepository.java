@@ -30,6 +30,5 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
     @Query("SELECT COUNT(mr) FROM MedicalRecord mr WHERE mr.isChecked = false AND mr.patient.doctor.id = :doctorId")
     Long countUncheckedMedicalRecordsForDoctor(@Param("doctorId") Long doctorId);
 
-
 }
 

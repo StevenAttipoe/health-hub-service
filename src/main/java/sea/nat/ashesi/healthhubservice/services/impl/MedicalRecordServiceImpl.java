@@ -71,7 +71,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Override
     public List<MedicalRecordDto> getMedicalRecords(long patientId, int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 4, (Sort.by("isChecked").and(Sort.by("dateCreated").descending())));
+        Pageable pageable = PageRequest.of(pageNo, 4, (Sort.by("isChecked")
+                .and(Sort.by("dateCreated").descending()))
+                .and(Sort.by("timeCreated").descending()));
 
         Page<MedicalRecord> medicalRecordsEntities = medicalRecordRepository.findByPatientPatientId(patientId, pageable);
         return medicalRecordsEntities
@@ -84,20 +86,15 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     public Map<String, Integer> getMedicalRecordsByMonth(long doctorId) {
         Map<String, Integer> recordsByMonth = new LinkedHashMap<>();
 
-        // Get the current year and month
         YearMonth currentYearMonth = YearMonth.now();
 
-        // Loop through each month of the year starting from January
         for (int i = 1; i <= currentYearMonth.getMonthValue(); i++) {
-            // Get the start and end dates of the current month
             LocalDate startDate = LocalDate.of(currentYearMonth.getYear(), i, 1);
             LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-            // Get the count of medical records for the current month and doctor ID
             int count = medicalRecordRepository.countByDateCreatedBetweenAndPatientDoctorDoctorId(
                     startDate, endDate, doctorId);
 
-            // Add the count to the recordsByMonth map
             recordsByMonth.put(startDate.getMonth().toString(), count);
         }
         return recordsByMonth;

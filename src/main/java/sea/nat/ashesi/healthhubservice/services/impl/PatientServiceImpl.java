@@ -39,26 +39,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public String signUpPatient(PatientSignUpDto request) {
-        var patient = Patient.builder()
-                .surname(request.getSurname())
-                .firstNames(request.getFirstNames())
-                .nationality(request.getNationality())
-                .gender(request.getGender())
-                .dateOfBirth(LocalDate.parse(request.getDateOfBirth(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                .height(request.getHeight())
-                .placeOfIssuance(request.getPlaceOfIssuance())
-                .personalIdNumber(request.getPersonalIdNumber())
-                .signUpDate(LocalDate.now())
-                .role(Role.USER)
-                .doctor(doctorService.getNextDoctor())
-                .build();
 
         Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(request.getPersonalIdNumber());
         if (patientOptional.isEmpty()) {
-            patientRepository.save(patient);
+            return jwtService.generateToken(patientRepository.save(patientConvertor.convert(request)));
         }
-        var jwtToken = jwtService.generateToken(patient);
-        return jwtToken;
+        return jwtService.generateToken(patientConvertor.convert(request));
     }
 
     @Override
@@ -83,7 +69,6 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient getPatient(String patientId) {
-        System.err.println(patientId);
         Optional<Patient> patientOptional = patientRepository.findByPersonalIdNumber(patientId);
         if(patientOptional.isPresent()) {
             return patientOptional.get();

@@ -2,7 +2,6 @@ package sea.nat.ashesi.healthhubservice.config;
 
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
