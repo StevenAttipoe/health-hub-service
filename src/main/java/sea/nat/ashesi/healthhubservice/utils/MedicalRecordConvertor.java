@@ -19,10 +19,9 @@ public class MedicalRecordConvertor implements Converter<MedicalRecord, MedicalR
     public MedicalRecordDto convert(MedicalRecord medicalRecord) {
         return MedicalRecordDto.builder()
                 .recordId(medicalRecord.getRecordId())
-                .bloodPressure(medicalRecord.getBloodPressure())
-                .glucoseLevel(medicalRecord.getGlucoseLevel())
+                .diaMmHg(medicalRecord.getDiaMmHg())
+                .sysMmHg(medicalRecord.getSysMmHg())
                 .pulseRate(medicalRecord.getPulseRate())
-                .temperature(medicalRecord.getTemperature())
                 .isChecked(medicalRecord.isChecked())
                 .notes(medicalRecord.getNotes())
                 .dateCreated(medicalRecord.getDateCreated())
@@ -32,10 +31,9 @@ public class MedicalRecordConvertor implements Converter<MedicalRecord, MedicalR
 
     public MedicalRecord convert(MedicalRecordDto medicalRecordDto) {
         return MedicalRecord.builder()
-                .bloodPressure(medicalRecordDto.getBloodPressure())
-                .glucoseLevel(medicalRecordDto.getGlucoseLevel())
+                .diaMmHg(medicalRecordDto.getDiaMmHg())
+                .sysMmHg(medicalRecordDto.getSysMmHg())
                 .pulseRate(medicalRecordDto.getPulseRate())
-                .temperature(medicalRecordDto.getTemperature())
                 .patient(patientService.getPatient())
                 .isChecked(false)
                 .dateCreated(LocalDate.now())

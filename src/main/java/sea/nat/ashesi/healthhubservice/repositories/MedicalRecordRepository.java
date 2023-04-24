@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,6 +17,8 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
     Optional<MedicalRecord> findFirstByPatientPatientIdOrderByDateCreatedDesc(@Param("patientId") long patientId);
 
     Page<MedicalRecord> findByPatientPatientId(Long patientId, Pageable pageable);
+
+    List<MedicalRecord> findByPatientPatientId(Long patientId);
 
     int countByDateCreatedAndPatientDoctorDoctorId(LocalDate createdAt, long doctorId);
 

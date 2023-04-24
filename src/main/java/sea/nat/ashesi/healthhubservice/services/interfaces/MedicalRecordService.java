@@ -17,6 +17,9 @@ public interface MedicalRecordService {
 
     List<MedicalRecordDto> getMedicalRecords(long patientId, int pageNo);
 
+    List<MedicalRecordDto> getAllMedicalRecords(long patientId);
+
+
     Map<String, Integer> getMedicalRecordsByMonth(long doctorId);
 
     int getTotalPage(int pageNo, long patientId);

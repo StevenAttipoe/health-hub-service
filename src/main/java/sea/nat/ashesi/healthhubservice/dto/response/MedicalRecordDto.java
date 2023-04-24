@@ -12,9 +12,8 @@ import java.time.LocalTime;
 public class MedicalRecordDto {
     long recordId;
     int pulseRate;
-    int bloodPressure;
-    int temperature;
-    int glucoseLevel;
+    int sysMmHg;
+    int diaMmHg;
     String notes;
     boolean isChecked;
     LocalDate dateCreated;

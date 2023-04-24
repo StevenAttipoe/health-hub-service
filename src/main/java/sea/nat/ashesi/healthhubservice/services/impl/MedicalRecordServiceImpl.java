@@ -83,6 +83,15 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
+    public List<MedicalRecordDto> getAllMedicalRecords(long patientId) {
+        List<MedicalRecord> medicalRecordsEntities = medicalRecordRepository.findByPatientPatientId(patientId);
+        return medicalRecordsEntities
+                .stream()
+                .map(medicalRecordConvertor::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Map<String, Integer> getMedicalRecordsByMonth(long doctorId) {
         Map<String, Integer> recordsByMonth = new LinkedHashMap<>();
 

@@ -20,9 +20,8 @@ public class MedicalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long recordId;
     private int pulseRate;
-    private int bloodPressure;
-    private int temperature;
-    private int glucoseLevel;
+    private int sysMmHg;
+    private int diaMmHg;
     private boolean isChecked;
     private String notes;
     private LocalDate dateCreated;

@@ -26,9 +26,13 @@ public class MedicalRecordController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<MedicalRecordDto>> getRecords(@RequestParam(defaultValue = "0") int pageNo){
-        return ResponseEntity.ok(medicalRecordService.getMedicalRecords(
-                patientService.getPatient().getPatientId(), pageNo));
+    public ResponseEntity<Map<String, Object>> getRecords(){
+        var patientID = patientService.getPatient().getPatientId();
+        Map<String, Object> response = new HashMap<>();
+        List<MedicalRecordDto> medicalRecordsDtoList = medicalRecordService.getAllMedicalRecords(patientID);
+
+        response.put("records", medicalRecordsDtoList);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/id/all/")
@@ -38,10 +42,9 @@ public class MedicalRecordController {
 
         var patientID= patientService.getPatient(patientId).getPatientId();
         Map<String, Object> response = new HashMap<>();
-        List<MedicalRecordDto> medicalRecordsDtoList =
-                medicalRecordService.getMedicalRecords(patientID, pageNo);
+        List<MedicalRecordDto> medicalRecordsDtoList = medicalRecordService.getMedicalRecords(patientID, pageNo);
         response.put("records", medicalRecordsDtoList);
-        response.put("totalPages", medicalRecordService.getTotalPage(pageNo, patientID ));
+        response.put("totalPages", medicalRecordService.getTotalPage(pageNo, patientID));
         return ResponseEntity.ok(response);
     }
 
