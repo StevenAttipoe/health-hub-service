@@ -24,7 +24,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3001/")
+                .allowedOrigins("http://localhost:3000/")
                 .allowedMethods("GET", "POST", "PUT")
                 .allowedHeaders("*");
     }
@@ -37,8 +37,9 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .cors(Customizer.withDefaults())
                 .authorizeRequests().antMatchers("/v2/api-docs", "/configuration/**",
                         "/swagger*/**", "/webjars/**").permitAll()
-                .and().authorizeRequests().antMatchers("/api/v1/patient/signup", "/api/v1/patient/auth",
-                        "/api/v1/doctor/login", "/api/v1/doctor/signup").permitAll()
+                .and().authorizeRequests().antMatchers(
+                        "/api/v1/patient/signup", "/api/v1/patient/auth", "/api/v1/doctor/login",
+                        "/api/v1/doctor/signup", "/api/v1/external/create").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

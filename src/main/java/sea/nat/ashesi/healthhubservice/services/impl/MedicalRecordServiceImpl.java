@@ -6,11 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import sea.nat.ashesi.healthhubservice.dto.request.ExternalMedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.exception.MedicalRecordException;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
+import sea.nat.ashesi.healthhubservice.repositories.ExternalMedicalRecordRepository;
 import sea.nat.ashesi.healthhubservice.repositories.MedicalRecordRepository;
 import sea.nat.ashesi.healthhubservice.services.interfaces.MedicalRecordService;
+import sea.nat.ashesi.healthhubservice.utils.ExternalMedicalRecordConvertor;
 import sea.nat.ashesi.healthhubservice.utils.MedicalRecordConvertor;
 
 
@@ -23,7 +26,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MedicalRecordServiceImpl implements MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
+    private final ExternalMedicalRecordRepository externalMedicalRecordRepository;
     private final MedicalRecordConvertor medicalRecordConvertor;
+    private final ExternalMedicalRecordConvertor externalMedicalRecordConvertor;
 
     @Override
     public MedicalRecord getRecentMedicalRecord(long patientId) {
@@ -66,6 +71,14 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     @Override
     public boolean createMedicalRecord(MedicalRecordDto request) {
         medicalRecordRepository.save(medicalRecordConvertor.convert(request));
+        return true;
+    }
+
+    @Override
+    public boolean createExternalMedicalRecord(ExternalMedicalRecordDto externalMedicalRecordDto) {
+        externalMedicalRecordRepository.save(Objects.requireNonNull(
+                externalMedicalRecordConvertor.convert(externalMedicalRecordDto))
+        );
         return true;
     }
 

@@ -1,5 +1,6 @@
 package sea.nat.ashesi.healthhubservice.services.interfaces;
 
+import sea.nat.ashesi.healthhubservice.dto.request.ExternalMedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.dto.response.MedicalRecordDto;
 import sea.nat.ashesi.healthhubservice.model.MedicalRecord;
 
@@ -14,6 +15,8 @@ public interface MedicalRecordService {
     boolean approveMedicalRecord(long medicalRecordId);
 
     boolean createMedicalRecord(MedicalRecordDto request);
+
+    boolean createExternalMedicalRecord(ExternalMedicalRecordDto request);
 
     List<MedicalRecordDto> getMedicalRecords(long patientId, int pageNo);
 

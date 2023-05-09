@@ -48,6 +48,10 @@ public class Patient implements UserDetails {
     @OneToMany(mappedBy="patient", cascade = CascadeType.ALL)
     private List<MedicalRecord> medicalRecords;
 
+    @JsonIgnore
+    @OneToMany(mappedBy="patient", cascade = CascadeType.ALL)
+    private List<ExternalMedicalRecord> externalMedicalRecords;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
